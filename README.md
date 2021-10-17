@@ -2,7 +2,7 @@
 
 > Command-line tool to provide null-safety percentage info of a project. Track your migration progress on mixed-version programs that execute with unsound null safety.
 
-[![Continuous Integration](https://github.com/dartsidedev/null_safety_percentage/workflows/Continuous%20Integration/badge.svg?branch=main)](https://github.com/dartsidedev/null_safety_percentage/actions) [![codecov](https://codecov.io/gh/dartsidedev/null_safety_percentage/branch/main/graph/badge.svg)](https://codecov.io/gh/dartsidedev/null_safety_percentage) [![null_safety_percentage](https://img.shields.io/pub/v/null_safety_percentage?label=null_safety_percentage&logo=dart)](https://pub.dev/packages/null_safety_percentage 'See null_safety_percentage package info on pub.dev') [![Published by dartside.dev](https://img.shields.io/static/v1?label=Published%20by&message=dartside.dev&logo=dart&logoWidth=30&color=40C4FF&labelColor=1d599b&labelWidth=100)](https://pub.dev/publishers/dartside.dev/packages) [![GitHub Stars Count](https://img.shields.io/github/stars/dartsidedev/null_safety_percentage?logo=github)](https://github.com/dartsidedev/null_safety_percentage 'Star me on GitHub!')
+[![Continuous Integration](https://github.com/dartsidedev/null_safety_percentage/workflows/CI/badge.svg?branch=main)](https://github.com/dartsidedev/null_safety_percentage/actions) [![codecov](https://codecov.io/gh/dartsidedev/null_safety_percentage/branch/main/graph/badge.svg)](https://codecov.io/gh/dartsidedev/null_safety_percentage) [![null_safety_percentage](https://img.shields.io/pub/v/null_safety_percentage?label=null_safety_percentage&logo=dart)](https://pub.dev/packages/null_safety_percentage 'See null_safety_percentage package info on pub.dev') [![Published by dartside.dev](https://img.shields.io/static/v1?label=Published%20by&message=dartside.dev&logo=dart&logoWidth=30&color=40C4FF&labelColor=1d599b&labelWidth=100)](https://pub.dev/publishers/dartside.dev/packages) [![GitHub Stars Count](https://img.shields.io/github/stars/dartsidedev/null_safety_percentage?logo=github)](https://github.com/dartsidedev/null_safety_percentage 'Star me on GitHub!')
 
 ## Important links
 
@@ -15,6 +15,15 @@
 * [Dart Docs `pub run`](https://dart.dev/tools/pub/cmd/pub-run)
 
 ## Motivation
+
+> A Dart program can contain some libraries that are null safe and some that aren’t. These mixed-version programs execute with unsound null safety. - [Dart: Unsound null safety](https://dart.dev/null-safety/unsound-null-safety)
+
+For smaller projects, [migrating to null safety](https://dart.dev/null-safety/migration-guide) can be done in a matter of minutes.
+Unfortunately, if you are not satisfied with the automatically migrated code and you want to do the migration on your own, the migration of large code-bases can take a while.
+
+This command-line tool lets you track your progress of your null-safety migration
+
+It supports multiple output formats, so for example if you want to add a check in your CI/CD tool to ensure that your "null-safety coverage percentage" 
 
 ## Usage
 
@@ -47,6 +56,16 @@ You can run Dart scripts from your dependencies using the `dart run` or `flutter
 
 1. Add `null_safety_percentage` to your `dev_dependencies`: `dart pub add -d null_safety_percentage` or `flutter pub add -d null_safety_percentage`.
 2. Run the script `dart run null_safety_percentage lib test` or `flutter run null_safety_percentage lib test`. See more example scripts above.
+
+## Caveats
+
+The tool is in its early phases and is written so that it runs correctly on the projects I am working on.
+
+Currently, the way the tool decides [whether a file counts as migrated or not](https://github.com/dartsidedev/null_safety_percentage/blob/master/lib/src/is_migrated.dart) is pretty rudimentary.
+I assume there must be better ways to get this information, but this approach worked well enough for me.
+[Improvements, recommendations are welcome](https://github.com/dartsidedev/null_safety_percentage/discussions).
+
+The tool is not going to work on totally unmigrated libraries. I didn't want to add safe-guards against that, so please make sure that the "input" project is at least partially migrated. 
 
 ## `example`
 
