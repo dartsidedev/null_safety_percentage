@@ -8,11 +8,12 @@
 
 * [Read the source code and **star the repo** on GitHub](https://github.com/dartsidedev/null_safety_percentage)
 * [Open an issue on GitHub](https://github.com/dartsidedev/null_safety_percentage/issues)
-* [See package on `pub.dev`](https://pub.dev/packages/null_safety_percentage)
-* [Read the docs on `pub.dev`](https://pub.dev/documentation/null_safety_percentage/latest/)
-* [Flutter Docs on "JSON and serialization"](https://flutter.dev/docs/development/data-and-backend/json)
-* [`dart:convert` library docs](https://api.dart.dev/stable/2.12.2/dart-convert/dart-convert-library.html)
-* [Dart Docs `pub run`](https://dart.dev/tools/pub/cmd/pub-run)
+* [See package on pub.dev](https://pub.dev/packages/null_safety_percentage)
+* [Read the docs on pub.dev](https://pub.dev/documentation/null_safety_percentage/latest/)
+* [Dart Null safety](https://dart.dev/null-safety)
+    * [Migrating to null safety](https://dart.dev/null-safety/migration-guide)
+    * [Unsound null safety](https://dart.dev/null-safety/unsound-null-safety)
+* [Dart "pub run"](https://dart.dev/tools/pub/cmd/pub-run)
 
 ## Motivation
 
@@ -21,41 +22,67 @@
 For smaller projects, [migrating to null safety](https://dart.dev/null-safety/migration-guide) can be done in a matter of minutes.
 Unfortunately, if you are not satisfied with the automatically migrated code and you want to do the migration on your own, the migration of large code-bases can take a while.
 
-This command-line tool lets you track your progress of your null-safety migration
+This command-line tool lets you track your progress of your null-safety migration.
 
-It supports multiple output formats, so for example if you want to add a check in your CI/CD tool to ensure that your "null-safety coverage percentage" 
-
-## Usage
+## Installation
 
 Install the `null_safety_percentage` command-line tool either globally or as a dev dependency.
 
-### `null_safety_percentage` command-line tool
-
-Keep in mind that how you invoke the `null_safety_percentage` depends on how you installed it and whether you are using it from a Flutter or Dart project.
-
-#### Global installation
+### Global installation
 
 If you install `null_safety_percentage` globally, you can execute it simply by typing `null_safety_percentage lib test`.
 
 ```
-dart pub global activate null_safety_percentage # or: flutter pub global activate null_safety_percentage
+# Install globally
+dart pub global activate null_safety_percentage
+# or: flutter pub global activate null_safety_percentage
 
+# Verify installation was successful
 null_safety_percentage --help
-null_safety_percentage --version
-
-null_safety_percentage lib
-null_safety_percentage lib test
-null_safety_percentage --output-format json lib test
-null_safety_percentage --output-format=json lib test
-null_safety_percentage --output-format human --verbose lib
 ```
 
-#### As dev dependency
+### As dev dependency
 
 You can run Dart scripts from your dependencies using the `dart run` or `flutter run` command.
 
-1. Add `null_safety_percentage` to your `dev_dependencies`: `dart pub add -d null_safety_percentage` or `flutter pub add -d null_safety_percentage`.
-2. Run the script `dart run null_safety_percentage lib test` or `flutter run null_safety_percentage lib test`. See more example scripts above.
+#### Flutter project
+
+1. Add `null_safety_percentage` to your `dev_dependencies`: `flutter pub add -d null_safety_percentage`.
+2. Run the script `flutter run null_safety_percentage lib test`. See more example in the "Usage" section below.
+
+#### Dart project
+
+1. Add `null_safety_percentage` to your `dev_dependencies`: `dart pub add -d null_safety_percentage`.
+2. Run the script `dart run null_safety_percentage lib test`. See more example in the "Usage" section below.
+
+## Usage
+
+Keep in mind that how you invoke the `null_safety_percentage` depends on how you installed it and whether you are using it from a Flutter or Dart project.
+The usage examples below assume you installed the package globally.
+
+```
+# See usage and other info about the package
+null_safety_percentage --help
+null_safety_percentage -h
+
+# One folder
+null_safety_percentage lib
+
+# Multiple folders
+null_safety_percentage lib test
+
+# Custom output format: JSON
+null_safety_percentage --output-format=json lib test
+null_safety_percentage --output-format json lib test
+
+# Custom output format: ASCII (perfect with UNIX/Shell tools)
+null_safety_percentage --output-format ascii lib test
+
+# Get version info
+null_safety_percentage --version
+```
+
+The tool supports multiple output formats, so for example if you want to add a check in your CI/CD tool to ensure that your "null-safety coverage percentage" metrics are not getting worse, you can use the "ascii" format, then take the metric you are interested in.
 
 ## Caveats
 
