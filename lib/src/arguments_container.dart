@@ -18,7 +18,7 @@ class ArgumentsContainer {
   @override
   String toString() {
     final sb = StringBuffer('$ArgumentsContainer(')
-      ..write('paths: $paths, ')
+      ..write('paths: [${paths.map((p) => '"$p"').join(', ')}], ')
       ..write('outputFormat: $outputFormat, ')
       ..write('verbose: $verbose, ')
       ..write('help: $help, ')
