@@ -1,0 +1,12 @@
+name: example
+description: An example app to test the null_safety_percentage command-line tool
+version: 1.0.0
+publish_to: none
+environment:
+  sdk: '>=2.14.4 <3.0.0'
+dependencies:
+  null_safety_percentage:
+    path: ../.
+dev_dependencies:
+  lints: ^1.0.0
+  test: ^1.16.0

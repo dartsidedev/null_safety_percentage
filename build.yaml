@@ -1,0 +1,6 @@
+targets:
+  $default:
+    builders:
+      build_pubspec:
+        options:
+          destination_file: 'lib/src/pubspec_info.dart'

@@ -1,0 +1,25 @@
+get: dart pub get
+build: dart run build_runner build
+format: dart format --set-exit-if-changed .
+analyze: dart analyze --fatal-infos --fatal-warnings .
+test: dart test
+test-coverage:
+- dart pub global activate test_coverage
+- dart pub global run test_coverage
+- genhtml coverage/lcov.info -o coverage/html
+example:
+- cd example && dart format --set-exit-if-changed .
+- cd example && dart analyze --fatal-infos --fatal-warnings .
+publish-dry-run:
+- dart pub publish --dry-run
+# Verify everything
+check:
+- $get
+- $build
+- $format
+- $analyze
+- $test
+- $example
+- $test-coverage
+- $publish-dry-run
+
