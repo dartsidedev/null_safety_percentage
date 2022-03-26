@@ -1,7 +1,7 @@
 name: null_safety_percentage
 description: Command-line tool to provide null-safety percentage info of a project. Track your migration progress on mixed-version programs that execute with unsound null safety.
-version: 1.0.0+3
-homepage: https://www.github.com/dartsidedev/null_safety_percentage
+version: 2.0.0
+homepage: https://www.github.com/vincevargadev
 repository: https://www.github.com/dartsidedev/null_safety_percentage
 issue_tracker: https://www.github.com/dartsidedev/null_safety_percentage/issues
 executables:
@@ -16,4 +16,5 @@ dev_dependencies:
   meta: ^1.7.0
 dependencies:
   args: ^2.3.0
+  compute: ^1.0.0
 scripts: derry.yaml

@@ -1,6 +1,8 @@
-## 1.0.0+1, 1.0.0+2, 1.0.0+3
+## 2.0.0
 
-- Docs improvements, fix license so it gets recognized by pubdev?
+- Don't expose command line tool details for external tools
+- Use separate isolate for each file
+- Refactor code base
 
 ## 1.0.0
 
