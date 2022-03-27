@@ -27,8 +27,7 @@ Future<void> main(List<String> arguments) async {
       .map((path) => Directory(path))
       .map((directory) => directory.dartFiles)
       .flatten()
-      .map((file) => file.path)
-      .map((path) => compute(examineFile, path))
+      .map((file) => compute(examineFile, file))
       .toStream()
       .fold<Overview>(Overview(), (overview, report) => overview..add(report))
       .use(args.outputFormat.formatter.format)
@@ -44,11 +43,8 @@ void printError(String message) {
   exitCode = 2;
 }
 
-FileReport examineFile(String path) =>
-    File(path).readAsLinesSync().use((lines) => FileReport(
-          lines: lines.length,
-          migrated: isMigrated(lines),
-        ));
+FileReport examineFile(File file) => file.readAsLinesSync().use(
+    (lines) => FileReport(lines: lines.length, migrated: isMigrated(lines)));
 
 extension AsyncUse<T> on Future<T> {
   Future<U> use<U>(U Function(T value) function) async => function(await this);
