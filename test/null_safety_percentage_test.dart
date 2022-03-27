@@ -144,7 +144,7 @@ void main() {
   });
 
   group('$Overview $Coverage', () {
-    test('add', () {
+    test('registerFile', () {
       final overview = Overview()
         ..registerFile(linesCount: 1, migrated: true)
         ..registerFile(linesCount: 2, migrated: true)
@@ -157,6 +157,22 @@ void main() {
       expect(overview.lines.total, 4);
       expect(overview.lines.migrated, 3);
       expect(overview.lines.percentage, 75.00);
+    });
+
+    test('add', () {
+      final o1 = Overview(
+        files: Coverage(total: 2, migrated: 1),
+        lines: Coverage(total: 4, migrated: 2),
+      );
+      final o2 = Overview(
+        files: Coverage(total: 2, migrated: 2),
+        lines: Coverage(total: 4, migrated: 4),
+      );
+      final o = o1 + o2;
+      expect(o.files.total, 4);
+      expect(o.files.migrated, 3);
+      expect(o.lines.total, 8);
+      expect(o.lines.migrated, 6);
     });
   });
 

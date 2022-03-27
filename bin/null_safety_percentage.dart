@@ -24,7 +24,7 @@ Future<void> main(List<String> arguments) async {
   if (args.version) return print(version);
   if (args.paths.isEmpty) return printError('No directories specified');
 
-  final isolateCount = math.max(1, Platform.numberOfProcessors - 1);
+  final isolateCount = math.max(1, Platform.numberOfProcessors);
 
   args.paths
       .map((path) => Directory(path))
