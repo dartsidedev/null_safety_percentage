@@ -188,21 +188,26 @@ class JsonOutputFormatter implements OutputFormatter {
 }
 
 class Overview {
-  Coverage files = Coverage();
-  Coverage lines = Coverage();
+  Overview({
+    Coverage? files,
+    Coverage? lines,
+  })  : files = files ?? Coverage(),
+        lines = lines ?? Coverage();
 
-  void add(FileReport fileReport) {
-    final migrated = fileReport.migrated;
-    files.add(migrated, 1);
-    lines.add(migrated, fileReport.lines);
+  final Coverage files;
+  final Coverage lines;
+
+  void registerFile({required int linesCount, required bool migrated}) {
+    files.register(migrated, 1);
+    lines.register(migrated, linesCount);
   }
-}
 
-class FileReport {
-  FileReport({required this.lines, required this.migrated});
-
-  final int lines;
-  final bool migrated;
+  Overview operator +(Overview other) {
+    return Overview(
+      files: files + other.files,
+      lines: lines + other.lines,
+    );
+  }
 }
 
 class Coverage {
@@ -214,9 +219,16 @@ class Coverage {
   double get percentage =>
       double.parse((migrated / total * 100).toStringAsFixed(2));
 
-  void add(bool isMigrated, int count) {
+  void register(bool isMigrated, int count) {
     if (isMigrated) migrated += count;
     total += count;
+  }
+
+  Coverage operator +(Coverage other) {
+    return Coverage(
+      total: total + other.total,
+      migrated: migrated + other.migrated,
+    );
   }
 }
 

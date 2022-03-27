@@ -10,4 +10,4 @@ const String issueTracker =
 const String name = '''null_safety_percentage''';
 const String repository =
     '''https://www.github.com/dartsidedev/null_safety_percentage''';
-const String version = '''2.0.0''';
+const String version = '''2.1.0''';

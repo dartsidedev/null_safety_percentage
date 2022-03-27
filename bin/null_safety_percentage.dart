@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math' as math;
 
 import 'package:compute/compute.dart';
 import 'package:null_safety_percentage/src/null_safety_percentage.dart';
@@ -23,13 +24,16 @@ Future<void> main(List<String> arguments) async {
   if (args.version) return print(version);
   if (args.paths.isEmpty) return printError('No directories specified');
 
+  final isolateCount = math.max(1, Platform.numberOfProcessors - 1);
+
   args.paths
       .map((path) => Directory(path))
       .map((directory) => directory.dartFiles)
       .flatten()
-      .map((file) => compute(examineFile, file))
+      .chunk(isolateCount)
+      .map((files) => compute(examineFiles, files))
       .toStream()
-      .fold<Overview>(Overview(), (overview, report) => overview..add(report))
+      .fold<Overview>(Overview(), (overview, part) => overview + part)
       .use(args.outputFormat.formatter.format)
       .use(print);
 }
@@ -43,8 +47,17 @@ void printError(String message) {
   exitCode = 2;
 }
 
-FileReport examineFile(File file) => file.readAsLinesSync().use(
-    (lines) => FileReport(lines: lines.length, migrated: isMigrated(lines)));
+Overview examineFiles(Iterable<File> files) {
+  final isoOverview = Overview();
+  for (final file in files) {
+    final lines = file.readAsLinesSync();
+    isoOverview.registerFile(
+      linesCount: lines.length,
+      migrated: isMigrated(lines),
+    );
+  }
+  return isoOverview;
+}
 
 extension AsyncUse<T> on Future<T> {
   Future<U> use<U>(U Function(T value) function) async => function(await this);
@@ -67,5 +80,20 @@ extension on Directory {
     return listSync(recursive: true)
         .whereType<File>()
         .where((f) => f.path.endsWith('.dart'));
+  }
+}
+
+extension ChunkExtension<T> on Iterable<T> {
+  // This chunking method doesn't keep the chunks together, it just splits into
+  // [chunkCount] nr of iterables and keeps the chunk lengths close to each other.
+  // this chunk works like how a dealer deals cards at a table
+  Iterable<Iterable<T>> chunk(int chunkCount) {
+    final result = List.generate(chunkCount, (_) => <T>[], growable: false);
+    var i = 0;
+    for (final e in this) {
+      result[i % chunkCount].add(e);
+      i++;
+    }
+    return result;
   }
 }

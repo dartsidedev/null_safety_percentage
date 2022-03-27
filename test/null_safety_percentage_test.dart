@@ -106,13 +106,10 @@ void main() {
     });
   });
 
-  final overview = Overview()
-    ..lines = (Coverage()
-      ..migrated = 34567
-      ..total = 123000)
-    ..files = (Coverage()
-      ..migrated = 543
-      ..total = 1001);
+  final overview = Overview(
+    lines: Coverage(migrated: 34567, total: 123000),
+    files: Coverage(migrated: 543, total: 1001),
+  );
 
   group(AsciiOutputFormatter, () {
     test('formats so that it is easy to manipulate with Shell tools', () {
@@ -146,12 +143,12 @@ void main() {
     });
   });
 
-  group('$Overview $FileReport $Coverage', () {
+  group('$Overview $Coverage', () {
     test('add', () {
       final overview = Overview()
-        ..add(FileReport(lines: 1, migrated: true))
-        ..add(FileReport(lines: 2, migrated: true))
-        ..add(FileReport(lines: 1, migrated: false));
+        ..registerFile(linesCount: 1, migrated: true)
+        ..registerFile(linesCount: 2, migrated: true)
+        ..registerFile(linesCount: 1, migrated: false);
 
       expect(overview.files.total, 3);
       expect(overview.files.migrated, 2);
